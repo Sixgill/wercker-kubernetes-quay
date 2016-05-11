@@ -20,7 +20,7 @@ build:
     # Copy binary to location that gets passed along to deploy
     - script:
         name: copy binary
-        code: cp app cities-service.json cities-controller.json "$WERCKER_OUTPUT_DIR"
+        code: echo $WERCKER_OUTPUT_DIR;cp app cities-service.json cities-controller.json "$WERCKER_OUTPUT_DIR"
 
 deploy:
     box: google/golang
@@ -32,7 +32,7 @@ deploy:
         cmd: ./app
         tag: $WERCKER_GIT_COMMIT
         ports: "5000"
-        repository: quay.io/wercker/wercker-kubernetes-quay
+        repository: quay.io/gregzuro/wercker-kubernetes-quay
         registry: https://quay.io
 
     # Run this to create the rc and service
@@ -59,4 +59,4 @@ deploy:
         password: $KUBERNETES_PASSWORD
         insecure-skip-tls-verify: true
         command: rolling-update cities
-        image: quay.io/wercker/wercker-kubernetes-quay:$WERCKER_GIT_COMMIT
+        image: quay.io/gregzuro/wercker-kubernetes-quay:$WERCKER_GIT_COMMIT

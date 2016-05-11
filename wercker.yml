@@ -22,7 +22,7 @@ build:
         name: copy binary
         code: echo $WERCKER_OUTPUT_DIR;cp app cities-service.json cities-controller.json "$WERCKER_OUTPUT_DIR"
 
-deploy:
+push-quay:
     box: google/golang
     steps:
     # use the scratch step to build a container from scratch based on the files present
@@ -35,8 +35,10 @@ deploy:
         repository: quay.io/gregzuro/wercker-kubernetes-quay
         registry: https://quay.io
 
-    # Run this to create the rc and service
-    initialize:
+# Run this to create the rc and service
+kube-initialize:
+    steps:
+
     - kubectl:
         server: $KUBERNETES_MASTER
         username: $KUBERNETES_USERNAME
@@ -51,8 +53,10 @@ deploy:
         insecure-skip-tls-verify: true
         command: create -f cities-service.json
 
-    # Update the replica controller to $WERCKER_GIT_COMMIT
-    rolling-update:
+# Update the replica controller to $WERCKER_GIT_COMMIT
+kube-deploy:
+    steps:
+
     - kubectl:
         server: $KUBERNETES_MASTER
         username: $KUBERNETES_USERNAME

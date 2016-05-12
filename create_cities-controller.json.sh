@@ -3,7 +3,7 @@
 cat > cities-controller.json <<EOF
 {
   "kind": "ReplicationController",
-  "apiVersion": "v1beta3",
+  "apiVersion": "v1",
   "metadata": {
     "name": "cities",
     "labels": {
@@ -26,7 +26,7 @@ cat > cities-controller.json <<EOF
         "containers": [
           {
             "imagePullPolicy": "Always",
-            "image": "quay.io/wercker/wercker-kubernetes-quay:${WERCKER_GIT_COMMIT}",
+            "image": "quay.io/sixgill/wercker-kubernetes-quay:${WERCKER_GIT_COMMIT}",
             "name": "cities",
             "ports": [
               {

@@ -3,4 +3,5 @@ _projects/
 _steps/
 _cache/
 
-
+.*.env
+.wercker

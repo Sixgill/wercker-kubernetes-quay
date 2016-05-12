@@ -1,5 +1,6 @@
+box: google/golang
+
 build:
-    box: google/golang
     steps:
 
     # Test the project
@@ -23,7 +24,7 @@ build:
         code: echo $WERCKER_OUTPUT_DIR;cp app cities-service.json cities-controller.json "$WERCKER_OUTPUT_DIR"
 
 push-quay:
-    box: google/golang
+#    box: google/golang
     steps:
     # use the scratch step to build a container from scratch based on the files present
     - internal/docker-scratch-push:
@@ -37,30 +38,31 @@ push-quay:
 
 # Run this to create the rc and service
 kube-initialize:
+#    box: node:4-slim
     steps:
 
-    - kubectl:
-        server: $KUBERNETES_MASTER
-        username: $KUBERNETES_USERNAME
-        password: $KUBERNETES_PASSWORD
-        insecure-skip-tls-verify: true
-        command: create -f cities-controller.json
+        - kubectl:
+            server: $KUBERNETES_MASTER
+            username: $KUBERNETES_USERNAME
+            password: $KUBERNETES_PASSWORD
+            insecure-skip-tls-verify: true
+            command: create -f cities-controller.json
 
-    - kubectl:
-        server: $KUBERNETES_MASTER
-        username: $KUBERNETES_USERNAME
-        password: $KUBERNETES_PASSWORD
-        insecure-skip-tls-verify: true
-        command: create -f cities-service.json
+        - kubectl:
+            server: $KUBERNETES_MASTER
+            username: $KUBERNETES_USERNAME
+            password: $KUBERNETES_PASSWORD
+            insecure-skip-tls-verify: true
+            command: create -f cities-service.json
 
 # Update the replica controller to $WERCKER_GIT_COMMIT
 kube-deploy:
     steps:
 
-    - kubectl:
-        server: $KUBERNETES_MASTER
-        username: $KUBERNETES_USERNAME
-        password: $KUBERNETES_PASSWORD
-        insecure-skip-tls-verify: true
-        command: rolling-update cities
-        image: quay.io/gregzuro/wercker-kubernetes-quay:$WERCKER_GIT_COMMIT
+        - kubectl:
+            server: $KUBERNETES_MASTER
+            username: $KUBERNETES_USERNAME
+            password: $KUBERNETES_PASSWORD
+            insecure-skip-tls-verify: true
+            command: rolling-update cities
+            image: quay.io/gregzuro/wercker-kubernetes-quay:$WERCKER_GIT_COMMIT

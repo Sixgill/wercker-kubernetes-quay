@@ -27,6 +27,12 @@ cat > cities-controller.json <<EOF
           {
             "imagePullPolicy": "Always",
             "image": "quay.io/gregzuro/wercker-kubernetes-quay:${WERCKER_GIT_COMMIT}",
+            "resources": {
+              "limits": {
+                "cpu": "100m",
+                "memory": "50Mi"
+              }
+            }
             "name": "cities",
             "ports": [
               {

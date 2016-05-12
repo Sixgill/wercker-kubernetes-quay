@@ -11,7 +11,7 @@ cat > cities-controller.json <<EOF
     }
   },
   "spec": {
-    "replicas": 3,
+    "replicas": 2,
     "selector": {
       "name": "cities"
     },

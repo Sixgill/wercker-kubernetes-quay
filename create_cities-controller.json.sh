@@ -32,7 +32,7 @@ cat > cities-controller.json <<EOF
                 "cpu": "100m",
                 "memory": "50Mi"
               }
-            }
+            },
             "name": "cities",
             "ports": [
               {

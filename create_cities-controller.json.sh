@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 cat > cities-controller.json <<EOF
 {
